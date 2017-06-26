@@ -16,14 +16,17 @@ class PostsController extends Controller
     {
         //return Post::all();  //  Returns in JSON format(an array in this case);
         // does not perform next return view;
-        // $posts = Post::all();
-        //  same as
-        // $posts = DB::select('SELECT * FROM posts');      // should use eloquent instead
-        // $posts = Post::orderBy('ptitle','asc')->get();   //  ascending
+
+//         $posts = Post::all();
+//           is the same as
+//         $posts = DB::select('SELECT * FROM posts');      // should use eloquent instead
+
+//         $posts = Post::orderBy('ptitle','asc')->get();   //  ascending
 //        return Post::where('ptitle','Post Two')->get();   //  should use return
-//        $posts = Post::orderBy('ptitle','desc')->get();   //  if add clauses, needs get()
-        $posts = Post::orderBy('ptitle','desc')->paginate(1);  // only 1 per page
 //        $posts = Post::orderBy('ptitle','desc')->take(1)->get();   //  if add clauses, needs get()
+//        $posts = Post::orderBy('ptitle','desc')->get();   //  if add clauses, needs get()
+
+        $posts = Post::orderBy('created_at','desc')->paginate(10);  // only 1 (or more) per page
         return view('posts.index')->with('posts', $posts);
     }
 
@@ -34,7 +37,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -45,7 +48,18 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'ptitle' => 'required',
+            'body'  => 'required'
+        ]);
+
+        //  Creates the Post
+        $post = new Post;
+        $post->ptitle = $request->input('ptitle');
+        $post->body = $request->input('body');
+        $post->save();
+
+        return redirect('/posts')->with('success', 'Post Created');
     }
 
     /**
