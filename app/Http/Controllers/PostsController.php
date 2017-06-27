@@ -8,6 +8,15 @@ use App\Post;
 class PostsController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['index', 'show']]);
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -26,7 +35,7 @@ class PostsController extends Controller
 //        $posts = Post::orderBy('ptitle','desc')->take(1)->get();   //  if add clauses, needs get()
 //        $posts = Post::orderBy('ptitle','desc')->get();   //  if add clauses, needs get()
 
-        $posts = Post::orderBy('created_at','desc')->paginate(10);  // only 1 (or more) per page
+        $posts = Post::orderBy('created_at','desc')->paginate(4);  // only 4 (or more) per page
         return view('posts.index')->with('posts', $posts);
     }
 
@@ -86,6 +95,11 @@ class PostsController extends Controller
     public function edit($id)
     {
         $post = Post::find($id);
+        //  Check for the correct user
+        if (auth()->user()->id !==$post->user_id){
+            return redirect('/posts')->with('error', 'Unauthorized Page');
+        }
+
         return view('posts.edit')->with('post', $post);
     }
 
@@ -103,7 +117,7 @@ class PostsController extends Controller
             'body'  => 'required'
         ]);
 
-        //  Find the Post
+        //  Finds and updates the Post
         $post = Post::find($id);
         $post->ptitle = $request->input('ptitle');
         $post->body = $request->input('body');
@@ -120,10 +134,14 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //  Deletes a Post
         $post = Post::find($id);
-        $post->delete();
 
+        //  Check for the correct user
+        if (auth()->user()->id !==$post->user_id){
+            return redirect('/posts')->with('error', 'Unauthorized Page');
+        }
+        //  Deletes a Post
+        $post->delete();
         return redirect('/posts')->with('success', 'Post Removed');
     }
 }
