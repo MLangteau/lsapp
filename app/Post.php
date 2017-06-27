@@ -13,4 +13,8 @@ class Post extends Model
     public $primaryKey = 'id';   // or another field it we want; this is the default
     // Timestamps
     public $timestamps = true;   // this is default; could put false
+
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
 }

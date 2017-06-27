@@ -8,7 +8,7 @@
         {{Form::text('ptitle', $post->ptitle, ['class' => 'form-control', 'placeholder' => 'Title'])}}
     </div>
     <div class="form-group">
-        {{Form::label('ptitle', 'Body')}}
+        {{Form::label('body', 'Body')}}
         {{Form::textarea('body', $post->body, ['id' => 'article-ckeditor', 'class' => 'form-control', 'placeholder' => 'Body Text'])}}
     </div>
     {{Form::hidden('_method', 'PUT')}}

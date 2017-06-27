@@ -57,6 +57,7 @@ class PostsController extends Controller
         $post = new Post;
         $post->ptitle = $request->input('ptitle');
         $post->body = $request->input('body');
+        $post->user_id = auth()->user()->id;
         $post->save();
 
         return redirect('/posts')->with('success', 'Post Created');
@@ -71,6 +72,7 @@ class PostsController extends Controller
     public function show($id)
     {
         //return Post::find($id);  returns a single post JSON
+        //  returns single post to the user
         $post = Post::find($id);
         return view('posts.show')->with('post', $post);
     }
