@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="text-center">
-        <h1>Posts</h1>
+        <h1>Meal Plans</h1>
     </div>
     @if(count($posts) > 0)
         @foreach($posts as $post)
@@ -24,6 +24,6 @@
         @endforeach
         {{$posts->links()}}
     @else
-        <p>No Posts found</p>
+        <p>No Meals found</p>
     @endif
 @endsection
