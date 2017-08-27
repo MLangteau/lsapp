@@ -8,13 +8,13 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    <a href="/posts/create" class="btn btn-primary">Create Menu!</a>
-                    <h3>Your Items</h3>
+                    <a href="/posts/create" class="btn btn-primary">Create a Post!</a>
+                    <h3>Your Blog Posts</h3>
                     {{--if no posts, display error message--}}
                     @if(count($posts) > 0)
                         <table class="table table-striped">
                             <tr>
-                                <th>Menu</th>
+                                <th>Title</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -32,7 +32,7 @@
                             @endforeach
                         </table>
                     @else
-                        <p>You have No Menus</p>
+                        <p>You have no Posts</p>
                     @endif
 
                 </div>

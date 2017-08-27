@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class PagesController extends Controller
 {
     public function index() {
-        $title = 'Welcome to Menu Planner!';
+        $title = 'Welcome to Blogger!';
 //        return view('pages.index', compact('title'));
         return view('pages.index')->with('title', $title);
     }
